@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="object_viewer.css">
+        <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec3 vNormal;
+        uniform mat4 mProjection;
+        uniform mat4 mModelView;
+        varying vec4 fColour;
+        uniform vec4 mNormals;
+        void main(){
+            gl_Position = mProjection * mModelView * vPosition;
+            fColour = vec4(vNormal,1.0);
+        }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 fColour;
+        void main() {
+            gl_FragColor = abs(fColour);
+        }
+        </script>  
+        <script id="vertex-shader-2" type="x-shader/x-vertex">
+        </script>
+        <script id="fragment-shader-2" type="x-shader/x-fragment">
+        </script>
+        <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script>
+        <script type="text/javascript" src="../Common/sphere.js"></script>
+        <script type="text/javascript" src="../Common/cube.js"></script>
+        <script type="text/javascript" src="pyramid.js"></script>
+        <script type="text/javascript" src="torus.js"></script> 
+        <script type="text/javascript" src="object_viewer.js"></script>        
+    </head>
+    <body>
+       <div id="singlepagecontainer">
+            <div id="interfacearea">
+                <div>VTX : <input type="file" id="vertex"></div>
+                <div>FRG : <input type="file" id="fragment"></div>
+                <p></p>
+                   Objecto:  
+                    <select id="Objectos">
+                    <option value="0">Esfera</option>
+                    <option value="1">Cubo </option>
+                    <option value="2">Piramide </option>
+                    <option value="3">Torus </option>
+                    </select>
+                <p></p>
+                
+                 Filling:  
+                    <select id="Fillings">
+                    <option value="0">Wired </option>
+                    <option value="1">Filled </option>
+                    </select>
+                
+                <p></p>
+                
+                Projecoes:  
+                    <select id="Projecoes">
+                    <option value="0" >Axonométrica </option>
+                    <option value="1" >Oblíqua </option>
+                    <option value="2" >Perspectiva </option>
+                    </select>
+                
+                 <p></p>
+                <div id="axon">
+                Ɣ  <input id="gammaS" type="range" min="-180" max="180" step="1" value="19" /> 
+                <p></p>
+                
+                θ  <input id="thetaS" type="range" min="-180" max="180" step="1" value="-20" /> 
+            
+                </div>
+                
+                <p id="tiposDeObliqua" ></p>
+                <div id="obliq">
+                 Tipos de Oblíqua:  
+                <select id="obliquas">
+                    <option value="0" >Cavaleira, l = 1 e B = 45º </option>
+                    <option value="1" >Gabinete, l = 0.5 e B = 63.4º </option>
+                    <option value="2" >Ortogonal, l = 0 e B = 90º </option>
+                    </select>
+                </div>
+                
+                <div id="perspect">
+                Z:  <input id="zS" type="range" min="1.5" max="4" step="0.1" value="2" />
+
+                </div>
+                <p></p>
+
+            </div>
+	        <div id="viewarea">
+                <canvas id="gl-canvas">
+                    Oops... your browser doesn't support the HTML5 canvas element"
+                </canvas>      
+            </div>
+
+        </div>
+    </body>
+</html>
+
