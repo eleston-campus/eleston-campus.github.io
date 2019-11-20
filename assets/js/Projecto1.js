@@ -1,7 +1,9 @@
+
 var gl;
 var isMand = true;
 var isMandLoc;
 var complexLoc;
+
 var complex = vec2(0.0,0.0);
 var zoom = 1.0;
 var zoomLoc;
@@ -16,8 +18,8 @@ var offsetX = 0.0;
 var offsetY = 0.0;
 
 window.onload = function init() {
-    var canvas = document.getElementById("gl-canvas");
-    gl = WebGLUtils.setupWebGL(canvas);
+    var canvasProjeto = document.getElementById("gl-canvasProjecto1");
+    gl = WebGLUtils.setupWebGL(canvasProjeto);
     if(!gl) { alert("WebGL isn't available"); }
     
     // Three vertices
@@ -33,7 +35,7 @@ window.onload = function init() {
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
     
     // Load shaders and initialize attribute buffers
-    var program = initShaders(gl, "vertex-shader", "fragment-shader");
+    var program = initShaders(gl, "vertex-shader-1", "fragment-shader-1");
     gl.useProgram(program);
     isMandLoc = gl.getUniformLocation(program, "isMand");
     complexLoc = gl.getUniformLocation(program, "complex");

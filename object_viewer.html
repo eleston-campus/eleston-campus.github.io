@@ -17,6 +17,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
     <link rel="stylesheet" href="/assets/css/iframe.css">
+    <link rel="stylesheet" href="/assets/css/object_viewer.css">
+<script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec3 vNormal;
+        uniform mat4 mProjection;
+        uniform mat4 mModelView;
+        varying vec4 fColour;
+        uniform vec4 mNormals;
+        void main(){
+            gl_Position = mProjection * mModelView * vPosition;
+            fColour = vec4(vNormal,1.0);
+        }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 fColour;
+        void main() {
+            gl_FragColor = abs(fColour);
+        }
+        </script>  
+        <script id="vertex-shader-2" type="x-shader/x-vertex">
+        </script>
+        <script id="fragment-shader-2" type="x-shader/x-fragment">
+        </script>
+        <script type="text/javascript" src="/webgl-utils.js"></script>
+        <script type="text/javascript" src="/initShaders.js"></script>
+        <script type="text/javascript" src="/MV.js"></script>
+        <script type="text/javascript" src="/Common/sphere.js"></script>
+        <script type="text/javascript" src="/cube.js"></script>
+        <script type="text/javascript" src="/pyramid.js"></script>
+        <script type="text/javascript" src="/torus.js"></script> 
+        <script type="text/javascript" src="/object_viewer.js"></script>   
 </head>
 
 <body><div id="singlepagecontainer">
@@ -75,7 +107,7 @@
 
             </div>
 	        <div id="viewarea">
-                <canvas id="gl-canvas">
+                <canvas id="gl-canvasObject">
                     Oops... your browser doesn't support the HTML5 canvas element"
                 </canvas>      
             </div>
@@ -86,9 +118,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script src="/assets/js/creative.js"></script>
+    <script src="/assets/js/cube.js"></script>
+    <script src="/assets/js/initShaders.js"></script>
+    <script src="/assets/js/MV.js"></script>
+    <script src="/assets/js/pyramid.js"></script>
+    <script src="/assets/js/sphere.js"></script>
+    <script src="/assets/js/torus.js"></script>
+    <script src="/assets/js/webgl-utils.js"></script>
+    <script src="/assets/js/cylinder.js"></script>
+    <script src="/assets/js/Projecto1.js"></script>
+    <script src="/assets/js/object_viewer.js"></script>
+    <script src="/assets/js/modelling_demo.js"></script>
     <script src="/assets/js/bs-animation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
-    <script src="/assets/js/Projecto1.js"></script>
 </body>
 
 </html>

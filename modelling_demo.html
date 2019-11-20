@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html style="height: 200px;width: 200px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Modelling Demo</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="/assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+    <link rel="stylesheet" href="/assets/css/iframe.css">
+    <link rel="stylesheet" href="/assets/css/object_viewer.css">
+<script id="vertex-shader" type="x-shader/x-vertex">
+const vec4 lightPosition = vec4(0.0, 0.0, 10.0, 1.0);    // in WC
+
+attribute vec4 vPosition;   // vertex position in modelling coordinates
+attribute vec4 vNormal;     // vertex normal in modelling coordinates
+
+uniform mat4 mView;         // view transformation matrix (for points)
+uniform mat4 mViewVectors;  // view transformation matrix (for vectors)
+uniform mat4 mModelView;    // model-view transformation (for points)
+uniform mat4 mNormals;      // model-view transformation (for vectors/normals)
+
+uniform mat4 mProjection;   // projection matrix
+
+varying vec3 fNormal;       // normal vector in camera space (to be interpolated)
+varying vec3 fLight;
+varying vec3 fViewer;
+
+void main(){
+    // compute position in camera frame
+    vec3 posC = (mModelView * vPosition).xyz;
+    
+    // compute normal in camera frame
+    fNormal = (mNormals * vNormal).xyz;
+
+    // compute light vector in camera frame
+    if(lightPosition.w == 0.0) 
+        fLight = normalize((mViewVectors * lightPosition).xyz);
+    else 
+        fLight = normalize((mView*lightPosition).xyz - posC);
+    
+    // Compute the view vector
+    // fViewer = -fPosition; // Perspective projection
+    fViewer = vec3(0,0,1); // Parallel projection only
+
+    // Compute vertex position in clip coordinates (as usual)
+    gl_Position = mProjection * mModelView * vPosition;
+
+    // make correction for left handed system of clip space
+    //gl_Position.z = -gl_Position.z;
+}
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec3 fPosition;
+varying vec3 fNormal;
+
+uniform vec3 color;
+const float shininess = 60.0;
+
+const vec3 lightAmb = vec3(0.2, 0.2, 0.2);
+const vec3 lightDif = vec3(0.5, 0.5, 0.5);
+const vec3 lightSpe = vec3(1.0, 1.0, 1.0);
+
+vec3 ambientColor = lightAmb * color;
+vec3 diffuseColor = lightDif * color;
+vec3 specularColor = lightSpe * vec3(1.0, 1.0, 1.0);
+
+varying vec3 fLight;
+varying vec3 fViewer;
+
+void main() {
+
+    vec3 L = normalize(fLight);
+    vec3 V = normalize(fViewer);
+    vec3 N = normalize(fNormal);
+   
+    // Compute the halfway vector for Phong-Blinn model
+    vec3 H = normalize(L+V);
+
+    // compute diffuse reflection, don't let the vertex be illuminated from behind...
+    float diffuseFactor = max( dot(L,N), 0.0 );
+    vec3 diffuse = diffuseFactor * diffuseColor;
+
+    // compute specular reflection
+    float specularFactor = pow(max(dot(N,H), 0.0), shininess);
+    vec3 specular = specularFactor * specularColor;
+
+    // specular reflection should be 0 if normal is pointing away from light source
+    if( dot(L,N) < 0.0 ) {
+        specular = vec3(0.0, 0.0, 0.0);
+    }
+
+    // add all 3 components from the illumination model (ambient, diffuse and specular)
+    gl_FragColor = vec4(ambientColor + diffuse + specular, 1.0);
+}
+</script>
+
+
+<script type="text/javascript" src="/webgl-utils.js"></script>
+<script type="text/javascript" src="/initShaders.js"></script>
+<script type="text/javascript" src="/MV.js"></script>
+<script type="text/javascript" src="/cube.js"></script>
+<script type="text/javascript" src="/sphere.js"></script>
+<script type="text/javascript" src="/cylinder.js"></script>
+<script type="text/javascript" src="/modelling_demo.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-monospace text-center"><title>Modelling Demo</title>
+    <div id="container">
+            <canvas id="gl-canvasLamp" width="512" height="512"> Oops... your browser doesn't support the HTML5 canvas element"
+            </canvas>
+    </div>
+
+     <div id="axon">
+         
+                EyeX  <input id="EyeX" type="range" min="-10" max="10" step="0.1" value="0"> 
+                <p></p>
+                
+                EyeY  <input id="EyeY" type="range" min="0" max="10" step="0.1" value="0"> 
+            
+                </div></div>
+    </div>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/creative.js"></script>
+    <script src="/assets/js/cube.js"></script>
+    <script src="/assets/js/initShaders.js"></script>
+    <script src="/assets/js/MV.js"></script>
+    <script src="/assets/js/pyramid.js"></script>
+    <script src="/assets/js/sphere.js"></script>
+    <script src="/assets/js/torus.js"></script>
+    <script src="/assets/js/webgl-utils.js"></script>
+    <script src="/assets/js/cylinder.js"></script>
+    <script src="/assets/js/Projecto1.js"></script>
+    <script src="/assets/js/object_viewer.js"></script>
+    <script src="/assets/js/modelling_demo.js"></script>
+    <script src="/assets/js/bs-animation.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+</body>
+
+</html>
