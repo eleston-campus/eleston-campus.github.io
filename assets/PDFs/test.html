@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Project</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="/assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+    <link rel="stylesheet" href="/assets/css/iframe.css">
+    <link rel="stylesheet" href="/assets/css/object_viewer.css">
+<script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec3 vNormal;
+        uniform mat4 mProjection;
+        uniform mat4 mModelView;
+        varying vec4 fColour;
+        uniform vec4 mNormals;
+        void main(){
+            gl_Position = mProjection * mModelView * vPosition;
+            fColour = vec4(vNormal,1.0);
+        }
+        </script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 fColour;
+        void main() {
+            gl_FragColor = abs(fColour);
+        }
+        </script>  
+        <script id="vertex-shader-2" type="x-shader/x-vertex">
+        </script>
+        <script id="fragment-shader-2" type="x-shader/x-fragment">
+        </script>
+        <script type="text/javascript" src="/webgl-utils.js"></script>
+        <script type="text/javascript" src="/initShaders.js"></script>
+        <script type="text/javascript" src="/MV.js"></script>
+        <script type="text/javascript" src="/Common/sphere.js"></script>
+        <script type="text/javascript" src="/cube.js"></script>
+        <script type="text/javascript" src="/pyramid.js"></script>
+        <script type="text/javascript" src="/torus.js"></script> 
+        <script type="text/javascript" src="/object_viewer.js"></script>   
+</head>
+
+<body><div id="singlepagecontainer">
+            <div id="interfacearea">
+                <div>VTX : <input type="file" id="vertex"></div>
+                <div>FRG : <input type="file" id="fragment"></div>
+                <p></p>
+                   Objecto:  
+                    <select id="Objectos">
+                    <option value="0">Esfera</option>
+                    <option value="1">Cubo </option>
+                    <option value="2">Piramide </option>
+                    <option value="3">Torus </option>
+                    </select>
+                <p></p>
+                
+                 Filling:  
+                    <select id="Fillings">
+                    <option value="0">Wired </option>
+                    <option value="1">Filled </option>
+                    </select>
+                
+                <p></p>
+                
+                Projecoes:  
+                    <select id="Projecoes">
+                    <option value="0">Axonométrica </option>
+                    <option value="1">Oblíqua </option>
+                    <option value="2">Perspectiva </option>
+                    </select>
+                
+                 <p></p>
+                <div id="axon">
+                Ɣ  <input id="gammaS" type="range" min="-180" max="180" step="1" value="19"> 
+                <p></p>
+                
+                θ  <input id="thetaS" type="range" min="-180" max="180" step="1" value="-20"> 
+            
+                </div>
+                
+                <p id="tiposDeObliqua"></p>
+                <div id="obliq">
+                 Tipos de Oblíqua:  
+                <select id="obliquas">
+                    <option value="0">Cavaleira, l = 1 e B = 45º </option>
+                    <option value="1">Gabinete, l = 0.5 e B = 63.4º </option>
+                    <option value="2">Ortogonal, l = 0 e B = 90º </option>
+                    </select>
+                </div>
+                
+                <div id="perspect">
+                Z:  <input id="zS" type="range" min="1.5" max="4" step="0.1" value="2">
+
+                </div>
+                <p></p>
+
+            </div>
+	        <div id="viewarea">
+                <canvas id="gl-canvasObject">
+                    Oops... your browser doesn't support the HTML5 canvas element"
+                </canvas>      
+            </div>
+
+        </div>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/creative.js"></script>
+    <script src="/assets/js/cube.js"></script>
+    <script src="/assets/js/initShaders.js"></script>
+    <script src="/assets/js/MV.js"></script>
+    <script src="/assets/js/pyramid.js"></script>
+    <script src="/assets/js/sphere.js"></script>
+    <script src="/assets/js/torus.js"></script>
+    <script src="/assets/js/webgl-utils.js"></script>
+    <script src="/assets/js/cylinder.js"></script>
+    <script src="/assets/js/Projecto1.js"></script>
+    <script src="/assets/js/object_viewer.js"></script>
+    <script src="/assets/js/modelling_demo.js"></script>
+    <script src="/assets/js/bs-animation.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+</body>
+
+</html>
