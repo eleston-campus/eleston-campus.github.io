@@ -63,7 +63,7 @@ function initialize() {
     gl.viewport(0,0,canvas.width, canvas.height);
     gl.enable(gl.DEPTH_TEST);
     
-    program = initShaders(gl, "vertex-shader", "fragment-shader");
+    program = initShaders(gl, "vertex-shader-lamp", "fragment-shader-lamp");
     
     cubeInit(gl);
     sphereInit(gl);

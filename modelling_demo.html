@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Modelling Demo</title>
+    <title>Lamp Modelling Demo</title>
+    <meta name="description" content="Lamp">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic">
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
     <link rel="stylesheet" href="/assets/css/iframe.css">
     <link rel="stylesheet" href="/assets/css/object_viewer.css">
-<script id="vertex-shader" type="x-shader/x-vertex">
+<script id="vertex-shader-lamp" type="x-shader/x-vertex">
 const vec4 lightPosition = vec4(0.0, 0.0, 10.0, 1.0);    // in WC
 
 attribute vec4 vPosition;   // vertex position in modelling coordinates
@@ -59,7 +60,7 @@ void main(){
     //gl_Position.z = -gl_Position.z;
 }
 </script>
-<script id="fragment-shader" type="x-shader/x-fragment">
+<script id="fragment-shader-lamp" type="x-shader/x-fragment">
 precision mediump float;
 
 varying vec3 fPosition;
