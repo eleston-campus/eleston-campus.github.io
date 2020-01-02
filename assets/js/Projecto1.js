@@ -16,7 +16,6 @@ var deslocamento = vec2(0.0,0.0);
 var offsetLoc;
 var offsetX = 0.0;
 var offsetY = 0.0;
-
 window.onload = function init() {
     var canvasProjeto = document.getElementById("gl-canvasProjecto1");
     gl = WebGLUtils.setupWebGL(canvasProjeto);
