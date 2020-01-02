@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
     <link rel="stylesheet" href="/assets/css/iframe.css">
     <link rel="stylesheet" href="/assets/css/object_viewer.css">
-<script id="vertex-shader-1" type="x-shader/x-vertex">
+<script id="vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition;
 varying vec2 pos;
 uniform float zoom;
@@ -29,7 +29,7 @@ void main(){
     pos = vPosition.xy * zoom;
 }
 </script>
-<script id="fragment-shader-1" type="x-shader/x-fragment">
+<script id="fragment-shader" type="x-shader/x-fragment">
 #define MAX_ITERATIONS 250
 
 precision mediump float;
@@ -111,13 +111,13 @@ else gl_FragColor = vec4(paletize(float(fractal( pos - offSet, complex , MAX_ITE
 
 </script>
 
-
-
-
 <script type="text/javascript" src="../assets/js/webgl-utils.js"></script>
 <script type="text/javascript" src="../assets/js/initShaders.js"></script>
 <script type="text/javascript" src="../assets/js/MV.js"></script>
 <script type="text/javascript" src="../assets/js/Projecto1.js"></script>
+
+
+
 </head>
 
 <body>
@@ -149,18 +149,18 @@ else gl_FragColor = vec4(paletize(float(fractal( pos - offSet, complex , MAX_ITE
     </div>
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/creative.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="/assets/js/webgl-utils.js"></script>
     <script src="/assets/js/MV.js"></script>
-    <script src="/assets/js/creative.js"></script>
-    <script src="/assets/js/cube.js"></script>
     <script src="/assets/js/initShaders.js"></script>
+    <script src="/assets/js/webgl-utils.js"></script>
+    <script src="/assets/js/Projecto1.js"></script>
+    <script src="/assets/js/cube.js"></script>
     <script src="/assets/js/pyramid.js"></script>
     <script src="/assets/js/sphere.js"></script>
     <script src="/assets/js/torus.js"></script>
     <script src="/assets/js/cylinder.js"></script>
-    <script src="/assets/js/Projecto1.js"></script>
     <script src="/assets/js/object_viewer.js"></script>
     <script src="/assets/js/modelling_demo.js"></script>
     <script src="/assets/js/bs-animation.js"></script>
