@@ -6,27 +6,26 @@ var canvas;
 var program;
 
 // Render Mode
-var WIREFRAME=1;
-var FILLED=2;
+var WIREFRAME = 1;
+var FILLED = 2;
 var renderMode = WIREFRAME;
 
 var projection;
 var modelView;
 var view;
-var QW=1;
-var ZX=1;
-var AS=1;
-var OP=0.3;
-var KL=1;
-var Dx=0.3;
-var Dz=-0.2;
-var eyeX=0;
-var eyeY=0;
+var QW = 1;
+var ZX = 1;
+var AS = 1;
+var OP = 0.3;
+var KL = 1;
+var Dx = 0.3;
+var Dz = -0.2;
+var eyeX = 0;
+var eyeY = 0;
 
-matrixStack = [];
+var matrixStack = [];
 
-function pushMatrix()
-{
+function pushMatrix(){
     matrixStack.push(mat4(modelView[0], modelView[1], modelView[2], modelView[3]));
 }
 
