@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html style="max-height: 600;min-height: 512;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Projecto Mandlebrot</title>
+    <meta name="description" content="Mandlebrot">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+    <link rel="stylesheet" href="assets/css/iframe.css">
+    <link rel="stylesheet" href="assets/css/object_viewer.css">
+<script id="vertex-shader-1" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+varying vec2 pos;
+uniform float zoom;
+
+void main(){
+    gl_Position = vPosition;
+    pos = vPosition.xy * zoom;
+}
+</script>
+<script id="fragment-shader-1" type="x-shader/x-fragment">
+#define MAX_ITERATIONS 250
+
+precision mediump float;
+varying vec2 pos;
+uniform bool isMand;
+uniform vec2 complex;
+uniform float factor;
+uniform vec2 offSet;
+bool forceBlack;
+
+
+float multReais( vec2 a, vec2 b ){
+float resultado;
+
+resultado =( a[0] * b[0] - a[1] * b[1] );
+return resultado;
+}
+
+
+float multIm ( vec2 a, vec2 b ){
+float resultado;
+
+resultado =(a[0] * b[1] + a[1] * b[0]);
+
+return resultado;
+}
+
+
+float multSoReais(vec2 a , vec2 b){
+float resultado;
+resultado = a[0] * b[0];
+
+return resultado;
+}
+
+
+int fractal(vec2 z0, vec2 c, int maxiterations) {
+	float real = 0.0;
+	float imagine = 0.0;
+	int k = 0;
+    for(int i = 0; i < MAX_ITERATIONS; i++) {
+		if(i >= maxiterations)
+			break;
+		real = multReais(z0,z0);
+		imagine = multIm (z0,z0);
+		z0[0] = real + c[0];
+		z0[1] = imagine + c[1];
+        if(z0[0] * z0[0] + z0[1] * z0[1] > 4.0)
+            break;
+		k = i;
+    }
+	k++;
+    if(k == maxiterations){
+        forceBlack = true;
+		return 0;
+        }
+    else {
+        forceBlack = false;
+		return k;
+        }
+}
+
+
+vec3 paletize(float v, float factor, bool forceBlack) {
+    float vv = v * factor;
+    if(forceBlack){
+    return vec3(0.0, 0.0, 0.0);
+    } else return vec3(sin(vv / 3.0), cos(vv / 6.0), cos(vv / (12.0 + 3.14 / 4.0)));;
+}
+
+void main() {
+
+if(isMand)
+    gl_FragColor = vec4(paletize(float(fractal(vec2(0.0, 0.0), pos - offSet, MAX_ITERATIONS)), factor,forceBlack), 1.0);
+else gl_FragColor = vec4(paletize(float(fractal( pos - offSet, complex , MAX_ITERATIONS)), factor,forceBlack), 1.0);
+
+}
+
+
+</script>
+
+<script type="text/javascript" src="../assets/js/webgl-utils.js"></script>
+<script type="text/javascript" src="../assets/js/initShaders.js"></script>
+<script type="text/javascript" src="../assets/js/MV.js"></script>
+<script type="text/javascript" src="../assets/js/Projecto1.js"></script>
+
+
+<link rel = "shortcut icon" type="image/png" href="images/favicon.png">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153633269-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-153633269-1');
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <div><title>Projecto</title>
+    <div>
+        Use 'Q' and 'A' keys dive/emerge. Use click/drag/release to move center point.
+    </div>
+    <canvas id="gl-canvasProjecto1" width="512" height="512">
+        Oops... your browser doesn't support the HTML5 canvas element"
+    </canvas>
+    
+  <div>
+      
+    Factor 0 <input id="slid1" type="range" min="0.1" max="2" step="0.01" value="1"> 2  
+      
+    Fractal type:  
+    <select id="Opcoes">
+    <option value="0">Mandelbrot</option>
+    <option value="1">Conjunto Julia para c=-0.4+0.6i </option>
+    <option value="2">Conjunto Julia para c=0.285+0i </option>
+    <option value="3">Conjunto Julia para c=0.285+0.01i </option>
+    <option value="4">Conjunto Julia para c=-0.8+0.156i </option>
+    <option value="5">Conjunto Julia para c=0.8+0i </option>
+    </select>
+    
+      
+    </div></div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/creative.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/MV.js"></script>
+    <script src="assets/js/initShaders.js"></script>
+    <script src="assets/js/webgl-utils.js"></script>
+    <script src="assets/js/Projecto1.js"></script>
+    <script src="assets/js/cube.js"></script>
+    <script src="assets/js/pyramid.js"></script>
+    <script src="assets/js/sphere.js"></script>
+    <script src="assets/js/torus.js"></script>
+    <script src="assets/js/cylinder.js"></script>
+    <script src="assets/js/object_viewer.js"></script>
+    <script src="assets/js/modelling_demo.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+</body>
+
+</html>
